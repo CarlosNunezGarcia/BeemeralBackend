@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { dbName, dbConfig } = require('config.json');
+const { dbName, dbConfig } = require('../config.json');
 
 const db = {};
 
@@ -19,6 +19,8 @@ const sequelize = new Sequelize(
 )
 
 //init models and add them to the exported db object
+db.User = require('../models/user.model')(sequelize, Sequelize);
+db.Subscription = require('../models/subscription.model')(sequelize, Sequelize);
 
 
 //add sequelize to the db object to be used globally

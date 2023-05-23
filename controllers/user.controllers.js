@@ -6,7 +6,21 @@ const authorize = require('_middlewares/authorize');
 const validateRequest = require('_middlewares/validate-request');
 const userService = require('services/user.service');
 
-module.exports = router;
+module.exports = {
+    authenticateSchema,
+    authenticate,
+    registerSchema,
+    register,
+    getAll,
+    getCurrent,
+    getById,
+    updateSchema,
+    update,
+    delete: _delete,
+    create,
+    login,
+};
+
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
@@ -75,5 +89,17 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     userService.delete(req.params.id)
         .then(() => res.json({ message: 'User deleted successfully' }))
+        .catch(next);
+}
+
+function create(req, res, next) {
+    userService.create(req.body)
+        .then(() => res.json({ message: 'User created successfully' }))
+        .catch(next);
+}
+
+function login(req, res, next) {
+    userService.login(req.body)
+        .then(() => res.json({ message: 'Login successful' }))
         .catch(next);
 }

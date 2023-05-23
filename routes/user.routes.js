@@ -2,22 +2,23 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const userController = require('../controllers/user.controllers');
+const authorize = require('../_middlewares/authorize');
 require('dotenv').config();
 
 //Create a new user
-router.post('/register', userController.register);
+router.post('/register', authorize, userController.create);
 
 //Login
-router.post('/login', userController.login);
+router.post('/login', authorize, userController.login);
 
 //Get all users
-router.get('/all', userController.getAll);
+router.get('/all', authorize, userController.getAll);
 
 //Get user by id
-router.get('/:id', userController.getById);
+router.get('/:id', authorize, userController.getById);
 
 //Update user
-router.put('/:id', userController.update);
+router.put('/:id', authorize, userController.update);
 
 //Delete user
-router.delete('/:id', userController.delete);
+router.delete('/:id', authorize, userController.delete);

@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken');
-
-const { secret } = require('config.json');
-const db = require('_helpers/db');
-
-module.exports = authorize;
+const { secret } = require('../config.json');
+const db = require('../_helpers/db');
 
 function authorize() {
     return [
@@ -23,6 +20,7 @@ function authorize() {
             req.user = user.get();
             next();
         }
-
     ];
 }
+
+module.exports = authorize;

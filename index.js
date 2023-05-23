@@ -4,16 +4,20 @@ const app = express();
 const cors = require("cors");
 
 const errorHandler = require("_middlewares/error-handler");
-const sequelize = require("sequelize");
+const { sequelize } = require("sequelize");
 const db = require("_helpers/db");
+
+const usersRoutes = require("./routes/user.routes");
+const subscriptionsRoutes = require("./routes/subscription.routes");
 
 
 app.use(express.json());
-app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // api routes
-app.use("/users", require("./routes/user.routes"));
+app.use("/users", usersRoutes);
+app.use("/subscriptions", subscriptionsRoutes);
 
 //global error handler
 app.use(errorHandler);

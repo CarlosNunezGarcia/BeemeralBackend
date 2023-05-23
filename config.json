@@ -1,6 +1,7 @@
 {
     "dbName": "postgres",
     "dbConfig": {
+      "server": "localhost",
       "options": {
         "port": 5432,
         "trustServerCertificate": true
@@ -17,6 +18,6 @@
         "loCompatPrivileges": true
       }
     },
-    "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS"
+    "secret": "secret"
   }
   
