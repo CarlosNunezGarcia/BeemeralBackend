@@ -22,3 +22,5 @@ router.put('/:id', authorize, userController.update);
 
 //Delete user
 router.delete('/:id', authorize, userController.delete);
+
+module.exports = router;

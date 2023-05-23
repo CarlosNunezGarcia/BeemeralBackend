@@ -11,3 +11,5 @@ router.post('/createSub', subscriptionController.createSubscription);
 
 //editar una subscripcion
 router.put('/editSub/:subscription_id', subscriptionController.editSubscription);
+
+module.exports = router;

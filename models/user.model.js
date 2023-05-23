@@ -77,7 +77,7 @@ function modelUser(sequelize) {
         defaultValue: '',
       },
       subscription_id: {
-        type: DataTypes.TINYINT,
+        type: DataTypes.SMALLINT,
         allowNull: false,
         defaultValue: 1,
       },
