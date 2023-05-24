@@ -21,7 +21,7 @@ router.post("/login", userControllers.login);
 
 //3 - traer info de un usuario
 //localhost:4000/users/oneUser/:user_id
-//router.get("/oneUser/:user_id", verify, userControllers.selectOneUser);
+router.get("/oneUser/:user_id", verify, userControllers.selectOneUser);
 
 //4 - editar info usuario
 //localhost:4000/users/editUser/:userId

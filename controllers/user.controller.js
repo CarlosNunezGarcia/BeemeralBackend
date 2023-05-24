@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
 const generatePasswordRand = require("../services/passGenerator");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
+
 
 //Create user
 //localhost:4000/users/createUser
@@ -113,7 +114,7 @@ const login = async (req, res) => {
 };
 //select one user
 //localhost:4000/users/oneUser/:user_id
-/*const selectOneUser = async (req, res) => {
+const selectOneUser = async (req, res) => {
   const user_id = req.params.user_id;
 
   try {
@@ -164,7 +165,7 @@ const login = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
- */
+
 
 //Edit user
 //localhost:4000/users/editUser
@@ -516,4 +517,5 @@ module.exports = {
   spendExport,
   forgotPassword,
   getPrices,
+  selectOneUser,
 };
