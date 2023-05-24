@@ -348,7 +348,97 @@ const getAllSupercategories = (req, res) => {
       res.status(400).json({ error });
     }
   };
+
+  //get all themes
+  //localhost:4000/admin/allThemes
+  const getAllThemes = async (req, res) => {
+    try {
+      const themes = await Theme.findAll();
   
+      res.status(200).json(themes);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //create theme
+  //localhost:4000/admin/createTheme
+  const createTheme = async (req, res) => {
+    try {
+      const { theme_title } = req.body;
+  
+      const theme = await Theme.create({ theme_title });
+  
+      res.status(200).json(theme);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //edit theme
+  //localhost:4000/admin/editTheme/:theme_id
+  const editTheme = async (req, res) => {
+    try {
+        const { theme_id } = req.params;
+        const { theme_title } = req.body;
+    
+        const theme = await Theme.findByPk(theme_id);
+    
+        if (!theme) {
+          return res.status(404).json({ error: 'Theme not found' });
+        }
+    
+        theme.theme_title = theme_title;
+        await theme.save();
+    
+        res.status(200).json(theme);
+      } catch (error) {
+        res.status(400).json({ error });
+      }
+    };
+
+    //delete theme
+    //localhost:4000/admin/deleteTheme/:theme_id
+    const deleteTheme = async (req, res) => {
+        try {
+          const { theme_id } = req.params;
+      
+          const theme = await Theme.findByPk(theme_id);
+      
+          if (!theme) {
+            return res.status(404).json({ error: 'Theme not found' });
+          }
+      
+          theme.is_deleted = true;
+          await theme.save();
+      
+          res.status(200).json({ message: 'Theme deleted successfully' });
+        } catch (error) {
+          res.status(400).json({ error });
+        }
+      };
+
+      //enable theme which was deleted
+      //localhost:4000/admin/enableTheme/:theme_id
+      const enableTheme = async (req, res) => {
+        try {
+          const { theme_id } = req.params;
+      
+          const theme = await Theme.findByPk(theme_id);
+      
+          if (!theme) {
+            return res.status(404).json({ error: 'Theme not found' });
+          }
+      
+          theme.is_deleted = false;
+          await theme.save();
+      
+          res.status(200).json({ message: 'Theme enabled successfully' });
+        } catch (error) {
+          res.status(400).json({ error });
+        }
+      };
+
   module.exports = {
     getAllUsers,
     disableUser,
@@ -370,4 +460,9 @@ const getAllSupercategories = (req, res) => {
     editSize,
     deleteSize,
     enableSize,
+    getAllThemes,
+    createTheme,
+    editTheme,
+    deleteTheme,
+    enableTheme,
   }
