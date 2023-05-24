@@ -78,7 +78,7 @@ const enableUser = async (req, res) => {
 
   //create supercategory
   //localhost:4000/admin/createSuperCategory
-  /* const createSupercategory = async (req, res) => {
+  const createSupercategory = async (req, res) => {
   try {
     const { supercategory_title } = req.body;
 
@@ -88,15 +88,286 @@ const enableUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });
   }
-};*/
+};
 
+//pick up all supercategories
+//localhost:4000/admin/allSuperCategories
+const getAllSupercategories = (req, res) => {
+    Supercategory.findAll()
+      .then((supercategories) => {
+        res.status(200).json(supercategories);
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };
 
+  //edit supercategory
+  //localhost:4000/admin/editSupercategory/:supercategory_id
+  const editSupercategory = async (req, res) => {
+    const id = req.params.supercategory_id;
+    const { supercategory_title } = req.body;
+  
+    try {
+      const supercategory = await Supercategory.findByPk(id);
+  
+      if (!supercategory) {
+        return res.status(404).json({ error: 'Supercategory not found' });
+      }
+  
+      supercategory.supercategory_title = supercategory_title;
+      await supercategory.save();
+  
+      res.status(200).json(supercategory);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //delete supercategory
+  //localhost:4000/admin/deleteSupercategory/:supercategory_id
+  const deleteSupercategory = async (req, res) => {
+    const id = req.params.supercategory_id;
+  
+    try {
+      const supercategory = await Supercategory.findByPk(id);
+  
+      if (!supercategory) {
+        return res.status(404).json({ error: 'Supercategory not found' });
+      }
+  
+      supercategory.is_deleted = true;
+      await supercategory.save();
+  
+      res.status(200).json(supercategory);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //enable supercategory
+  //localhost:4000/admin/enableSupercategory/:supercategory_id
+  const enableSupercategory = async (req, res) => {
+    const id = req.params.supercategory_id;
+  
+    try {
+      const supercategory = await Supercategory.findByPk(id);
+  
+      if (!supercategory) {
+        return res.status(404).json({ error: 'Supercategory not found' });
+      }
+  
+      supercategory.is_deleted = false;
+      await supercategory.save();
+  
+      res.status(200).json(supercategory);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //all categories
+  //localhost:4000/admin/allCategories
+  const getAllCategories = (req, res) => {
+    Category.findAll()
+      .then((categories) => {
+        res.status(200).json(categories);
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };
+  
+  //create category
+  //localhost:4000/admin/createCategory/:supercategory_id
+  const createCategory = (req, res) => {
+    const { category_title, supercategory_id } = req.body;
+  
+    Category.create({ category_title, supercategory_id })
+      .then((category) => {
+        res.status(200).json(category);
+      })
+      .catch((error) => {
+        res.status(500).json({ error: 'Error creating category' });
+      });
+  };
+
+  //edit category
+  //localhost:4000/admin/editCategory/:category_id
+  const editCategory = (req, res) => {
+    const id = req.params.category_id;
+    const { category_title } = req.body;
+  
+    Category.findByPk(id)
+      .then((category) => {
+        if (!category) {
+          return res.status(404).json({ error: 'Category not found' });
+        }
+  
+        category.category_title = category_title;
+        return category.save();
+      })
+      .then((updatedCategory) => {
+        res.status(200).json(updatedCategory);
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };
+
+  //delete category
+  //localhost:4000/admin/deleteCategory/:category_id
+  const deleteCategory = (req, res) => {
+    const id = req.params.category_id;
+  
+    Category.findByPk(id)
+      .then((category) => {
+        if (!category) {
+          return res.status(404).json({ error: 'Category not found' });
+        }
+  
+        category.is_deleted = true;
+        return category.save();
+      })
+      .then(() => {
+        res.status(200).json({ message: 'Category deleted successfully' });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };
+
+  //enable category which was deleted
+  //localhost:4000/admin/enableCategory/:category_id
+  const enableCategory = (req, res) => {
+    const id = req.params.category_id;
+  
+    Category.findByPk(id)
+      .then((category) => {
+        if (!category) {
+          return res.status(404).json({ error: 'Category not found' });
+        }
+  
+        category.is_deleted = false;
+        return category.save();
+      })
+      .then(() => {
+        res.status(200).json({ message: 'Category enabled successfully' });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };
+
+  //pick up all sizes
+  //localhost:4000/admin/allSizes
+  const getAllSizes = (req, res) => {
+    Size.findAll()
+      .then((sizes) => {
+        res.status(200).json(sizes);
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  };
+
+  //create a size
+  //localhost:4000/admin/createSize
+  const createSize = async (req, res) => {
+    try {
+      const { size_letter } = req.body;
+  
+      const size = await Size.create({ size_letter });
+  
+      res.status(200).json(size);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //edit size
+  //localhost:4000/admin/editSize/:size_id
+  const editSize = async (req, res) => {
+    try {
+      const { size_letter } = req.body;
+      const id = req.params.size_id;
+  
+      const size = await Size.findByPk(id);
+  
+      if (!size) {
+        return res.status(404).json({ error: 'Size not found' });
+      }
+  
+      size.size_letter = size_letter;
+      await size.save();
+  
+      res.status(200).json(size);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //delete size
+  //localhost:4000/admin/deleteSize/:size_id
+  const deleteSize = async (req, res) => {
+    try {
+      const id = req.params.size_id;
+  
+      const size = await Size.findByPk(id);
+  
+      if (!size) {
+        return res.status(404).json({ error: 'Size not found' });
+      }
+  
+      size.is_deleted = true;
+      await size.save();
+  
+      res.status(200).json(size);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+
+  //enable size
+  //localhost:4000/admin/enableSize/:size_id
+  const enableSize = async (req, res) => {
+    try {
+      const id = req.params.size_id;
+  
+      const size = await Size.findByPk(id);
+  
+      if (!size) {
+        return res.status(404).json({ error: 'Size not found' });
+      }
+  
+      size.is_deleted = false;
+      await size.save();
+  
+      res.status(200).json(size);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  };
+  
   module.exports = {
     getAllUsers,
     disableUser,
     enableUser,
     adminUser,
     normalUser,
-    //createSupercategory,
-
+    createSupercategory,
+    getAllSupercategories,
+    editSupercategory,
+    deleteSupercategory,
+    enableSupercategory,
+    getAllCategories,
+    createCategory,
+    editCategory,
+    deleteCategory,
+    enableCategory,
+    getAllSizes,
+    createSize,
+    editSize,
+    deleteSize,
+    enableSize,
   }
