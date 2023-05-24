@@ -1,0 +1,108 @@
+﻿
+
+
+//Crear base de datos
+
+En la carpeta del proyecto incluimos el script para crear la base de datos, si está Workbench instalado correctamente al hacer click se abrirá automáticamente, habrá que pulsar el icono de rayo para que nos la cree. 
+
+
+Como se puede observar, nuestra base de datos tiene diferentes tablas:
+
+- SUBSCRIPTION: guardamos todas las suscripciones que tenemos creadas en Stripe, además de una free que es la que viene por defecto en todos los usuarios creados de inicio. Esta "free" viene sin price_code, con el numero de espacios limitado a 5 y el resto (renders y exports) a 0. 
+
+- USER: almacenar todos los datos de cada usuario, que tendrá por defecto el user_id, una imagen de perfil, nickname, nombre, apellido, email, contraseña (encriptada al registrarse), el tipo (para distinguir usuario admin de usuario normal, será 1 o 2), is_verificated (para ver si ha verificado su cuenta con su email), el número de exportaciones, renders y espacios de proyectos que le quedan disponibles según su suscripción. Además de ello tiene un campo is_deleted (borrado lógico si se elimina su cuenta), el id de sus suscripción en caso de que la tenga, la fecha de renovación de su suscripción, y el id del último pago único que ha hecho. 
+
+SUPERCATEGORY:  la tabla para almacenar las distintas supercategorías, que tiene su id y el nombre.
+
+CATEGORY: tiene el id de la categoría, el nombre, una referencia de su supercategoría como clave foránea. 
+
+SIZE: tiene el tamaño de cada plantilla con su Size_letter (S, M, L, XL...), un ID y un campo para borrado lógico
+
+THEME: Lo mismo, tiene el id, el nombre y un campo para borrado lógico
+
+
+PROJECT: para guardar toda la info de cada proyecto, cada uno está relacionado con un usuario, su categoría, tamaño y tema. Además tiene un id, un título, una foto, un campo project_data, una variable is_public (que servirá en el caso de que sea activada para que el proyecto sea visto y usado como una plantilla por todos los usuarios, en caso contrario será privado para cada user)
+
+
+#Abrir proyecto 
+
+Abrir el proyecto en Visual Studio Code
+
+Abajo abrir dos terminales, una la usaremos para la parte de cliente y otra para el servidor
+
+TERMINAL 1
+cd server
+npm install
+npm run dev
+
+
+TERMINAL 2
+cd client
+npm install
+npm start
+
+
+En resumen, instalamos las dependencias de cada uno de los proyectos (servidor y cliente) y los lanzamos
+
+
+#DOCUMENTACIÓN GENERAL
+
+
+
+#ASPECTOS A TENER EN CUENTA
+
+1) STRIPE
+
+Si se crea una suscripción nueva en Stripe, habrá que añadirla en la base de datos, junto con los siguientes campos: el nombre del plan, el precio, el número de exportaciones y de renders que ofrece mensualmente la suscripción, tokenizaton (es un boleano, será true si lo incluye y false en el caso de que no), y por último el price_code, que es el id de ese precio que nos aparece al crearlo en el dashboard de Stripe. 
+
+EJEMPLO: 
+
+INSERT INTO subscription (plans, price, export, render, space, price_code) VALUES ("Premium", 325, 50, 10, 5, "price_1MWGJWIRxrYajVCw9Ax41RQl");
+
+
+Si se tira la Base de datos, para crearla de nuevo, asegurarse de que se borran los correos relacionados del panel de Stripe
+
+
+Es necesario crear una cuenta de Stripe, añadir la Api Key (Clave Secreta) en el archivo .env del server. Esta clave la podremos encontrar en nuestra cuenta de Stripe, el apartado para desarrolladores: https://dashboard.stripe.com/test/apikeys 
+
+
+En el archivo .env del cliente es necesario añadir la Api Key (en este caso la Clave Publicable), para poder redireccionar al Checkout de pago de cada producto o suscripción 
+
+2) Configurar cuenta de correo (Nodemailer) para los correos de verificación de usuario, recuperación de contraseña. Actualmente se está usando una cuenta de correo nuestra para implementar esto. 
+
+
+	host: "smtp.gmail.com", // dominio
+port: 465, // puerto para gmail
+secure: true, // true para 465, false para el resto
+auth: {
+	user: "example@gmail.com", // correo coorporativo creado
+    pass: "************", // contraseña de aplicación
+
+
+Esta configuración sería para una cuenta de correo de Gmail. 
+
+En el archivo nodemailer.js del server será necesario añadir la cuenta de correo creada para esto, así como la clave.
+
+3) Para editar las plantillas de correos salientes del formulario de contacto, se hace desde el dashboard de la librería, en la siguiente web:
+
+https://dashboard.emailjs.com/sign-in
+
+Las credenciales de acceso son:
+
+email: clients@beemeral.com / password: Socratech2023,
+
+
+3) UNITY
+
+Falta implementación con la parte de Unity, se puede probar con un formulario project que tenemos implementado para la presentación. 
+
+
+
+
+
+
+
+
+
+
+
