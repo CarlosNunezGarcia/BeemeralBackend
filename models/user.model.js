@@ -16,6 +16,7 @@ function modelUser(sequelize) {
       img: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'avatar.jpg',
       },
       nickname: {
         type: DataTypes.STRING,
