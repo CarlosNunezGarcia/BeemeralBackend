@@ -114,4 +114,5 @@ function modelUser(sequelize) {
       onUpdate: 'CASCADE',
     });
   };
+
 }

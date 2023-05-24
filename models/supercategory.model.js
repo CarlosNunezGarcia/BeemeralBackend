@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 
+
 const Supercategory = db.define('supercategory', {
     supercategory_id: {
       type: DataTypes.SMALLINT.UNSIGNED,
