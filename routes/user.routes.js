@@ -6,7 +6,7 @@ const connection = require("../config.json");
 const uploadImgUser = require('../_middlewares/uploadImgUser')
 const uploadImgProyect = require('../_middlewares/uploadImgProject');
 const uploadJsonProyect = require('../_middlewares/uploadJsonProject');
-const verify = require('../_middlewares/verify');
+const verify = require('../_middlewares/authorize');
 const userControllers = require("../controllers/user.controller");
 require("dotenv").config();
 const nodemailer = require("nodemailer");
