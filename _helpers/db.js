@@ -24,6 +24,7 @@ db.Subscription = require('../models/subscription.model')(sequelize, Sequelize);
 db.category = require('../models/category.model')(sequelize, Sequelize);
 db.supercategory = require('../models/supercategory.model')(sequelize, Sequelize);
 db.project = require('../models/project.model')(sequelize, Sequelize);
+db.tag = require('../models/tag.model')(sequelize, Sequelize);
 
 
 //add sequelize to the db object to be used globally
