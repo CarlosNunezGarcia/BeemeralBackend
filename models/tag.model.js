@@ -5,7 +5,7 @@ const db = require('../config.json'); // Archivo de configuración de la base de
 // Define el modelo "Tag"
 const Tag = db.define('tag', {
   tag_id: {
-    type: DataTypes.MEDIUMINT.UNSIGNED,
+    type: DataTypes.MEDIUMINT,
     primaryKey: true,
     autoIncrement: true
   },

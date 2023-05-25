@@ -5,7 +5,7 @@ function modelSupercategory(sequelize){
 
   const Supercategory = sequelize.define('supercategory', {
       supercategory_id: {
-        type: DataTypes.SMALLINT.UNSIGNED,
+        type: DataTypes.SMALLINT,
         primaryKey: true,
         autoIncrement: true
       },

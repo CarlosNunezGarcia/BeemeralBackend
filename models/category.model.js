@@ -7,7 +7,7 @@ function modelCategory(sequelize){
 
   const Category = sequelize.define('category', {
       category_id: {
-        type: DataTypes.SMALLINT.UNSIGNED,
+        type: DataTypes.SMALLINT,
         primaryKey: true,
         autoIncrement: true
       },
