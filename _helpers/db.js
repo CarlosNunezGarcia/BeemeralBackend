@@ -12,10 +12,12 @@ const sequelize = new Sequelize(
         host: dbConfig.server,
         port: dbConfig.options.port,
         dialect: "postgres",
-        dialectOptions: {
-            ssl: false,
-        },
-    }
+        /*dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }*/ //for azure
+    },
 )
 
 //init models and add them to the exported db object
