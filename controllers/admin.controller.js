@@ -1,7 +1,10 @@
 const connection = require("../config.json");
 const { User } = require("../models/user.model");
 const { Subscription } = require("../models/subscription.model");
-const { SuperCategory } = require("../models/supercategory.model");
+const { Supercategory } = require("../models/supercategory.model");
+const { Category } = require("../models/category.model");
+const { Size } = require("../models/size.model");
+const { Theme } = require("../models/theme.model");
 
 //Show all users
 //localhost:4000/admin/allUser
