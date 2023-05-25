@@ -112,6 +112,7 @@ const login = async (req, res) => {
     res.status(500).json("Error en el servidor");
   }
 };
+
 //select one user
 //localhost:4000/users/oneUser/:user_id
 const selectOneUser = async (req, res) => {
@@ -471,7 +472,7 @@ const spendRender = async (req, res) => {
   }
 };
 
-//gastar un export
+//spend export
 //localhost:4000/users/spendExport/:user_id
 const spendExport = async (req, res) => {
   try {
