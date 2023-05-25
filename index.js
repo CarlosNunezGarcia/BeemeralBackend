@@ -9,6 +9,7 @@ const db = require("_helpers/db");
 
 const usersRoutes = require("./routes/user.routes");
 const subscriptionsRoutes = require("./routes/subscription.routes");
+const adminRoutes = require("./routes/admin.routes");
 
 
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(cors());
 // api routes
 app.use("/users", usersRoutes);
 app.use("/subscriptions", subscriptionsRoutes);
+app.use("/admin", adminRoutes);
 
 //global error handler
 app.use(errorHandler);
