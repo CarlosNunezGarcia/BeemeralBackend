@@ -5,33 +5,40 @@ const Tag = require('./tag.model'); // Modelo de la tabla "tag"
 const Project = require('./project.model'); // Modelo de la tabla "project"
 
 // Define el modelo "TagProject"
-const TagProject = db.define('tag_project', {
-  tag_id: {
-    type: DataTypes.MEDIUMINT.UNSIGNED,
-    allowNull: false,
-    references: {
-      model: Tag,
-      key: 'tag_id'
+function modelTagProject(sequelize) {
+
+  const TagProject = sequelize.define('tag_project', {
+    tag_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  },
-  project_id: {
-    type: DataTypes.MEDIUMINT.UNSIGNED,
-    allowNull: false,
-    references: {
-      model: Project,
-      key: 'project_id'
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  }
-}, {
-  // Nombre de la tabla en la base de datos
-  tableName: 'tag_project',
-  // Opciones adicionales del modelo
-  timestamps: false // Si no hay columnas de createdAt y updatedAt en la tabla
-});
+    project_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
+  }, {
+    // Nombre de la tabla en la base de datos
+    tableName: 'tag_project',
+    // Opciones adicionales del modelo
+    timestamps: false // Si no hay columnas de createdAt y updatedAt en la tabla
+  });
+
+  // Relaciones
+  TagProject.associate = (models) => {
+    TagProject.belongsTo(models.Tag, {
+      as: 'Tag',
+      foreignKey: 'tag_id',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    TagProject.belongsTo(models.Project, {
+      as: 'Project',
+      foreignKey: 'project_id',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+  };
+}
 
 // Exporta el modelo
-module.exports = TagProject;
+module.exports = modelTagProject;

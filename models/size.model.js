@@ -5,9 +5,9 @@ const db = require('../config.json'); // Archivo de configuración de la base de
 // Define el modelo "Size"
 function modelSize(sequelize){
 
-  const Size = sequelizes.define('size', {
+  const Size = sequelize.define('size', {
     size_id: {
-      type: DataTypes.TINYINT,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
