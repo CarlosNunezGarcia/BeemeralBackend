@@ -496,7 +496,7 @@ const spendExport = async (req, res) => {
 //localhost:4000/users/getPrices
 const getPrices = async (req, res) => {
   try {
-    const prices = await stripe.prices.findAll();
+    const prices = await stripe.price.findAll();
     const reversedPrices = prices.reverse();
     res.json(reversedPrices.map((price) => price.toJSON()));
   } catch (error) {
