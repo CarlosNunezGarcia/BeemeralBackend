@@ -21,6 +21,9 @@ const sequelize = new Sequelize(
 //init models and add them to the exported db object
 db.User = require('../models/user.model')(sequelize, Sequelize);
 db.Subscription = require('../models/subscription.model')(sequelize, Sequelize);
+db.category = require('../models/category.model')(sequelize, Sequelize);
+db.supercategory = require('../models/supercategory.model')(sequelize, Sequelize);
+db.
 
 
 //add sequelize to the db object to be used globally
