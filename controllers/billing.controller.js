@@ -272,7 +272,25 @@ const createPaymentIntent = async (req, res) => {
     }
 };
 
+const getUserPurchases = async (req, res) => {
+    const { email } = req.body;
 
+    try {
+        const user = await User.findOne({ where: { email: email } });
+
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        const payments = await stripe.paymentIntents.list({
+            limit: 100,
+        });
+
+        res.json(payments);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
 
 
 module.exports = {
@@ -285,4 +303,5 @@ module.exports = {
     getAllActiveCustomers,
     subscriptionStatus,
     createPaymentIntent,
+    getUserPurchases,
 };
