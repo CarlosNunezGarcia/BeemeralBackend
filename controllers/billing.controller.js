@@ -131,9 +131,50 @@ const updateAfterBuyOneItem = async (req, res) => {
     }
 };
 
+const checkLastTransactions = async (req, res) => {
+    const { email } = req.body;
+
+    try{
+        const user = await User.findOne({ where: { email: email } });
+
+        if (!user) {
+            return res.status(200).json('No stripe account created yet');
+        }
+
+        const customer = await stripe.customers.list({
+            email: email,
+        });
+
+        const id = customer.data.length > 0 ? customer.data[0].id : "0";
+
+        if (id === "0") {
+            return res.status(200).json("No stripe account created yet");
+        }
+
+        const charges = await stripe.charges.list({
+            customer: id,
+        });
+
+        if (charges.data.length > 0) {
+            return res.status(200).json({
+                email: email,
+                last_payment_bd: user.last_single_payment_code,
+                last_payment_stripe: charges.data[0].id,
+                amount: charges.data[0].amount,
+            });
+        } else {
+            return res.status(200).json("No transactions found");
+        }
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 
 module.exports = {
     getPrices,
     getOnePrice,
     getOneCustomer,
+    updateAfterBuyOneItem,
+    checkLastTransactions,
 };
