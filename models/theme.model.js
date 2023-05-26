@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../config.json'); // Archivo de configuración de la base de datos
+
 
 function modelTheme(sequelize){
 

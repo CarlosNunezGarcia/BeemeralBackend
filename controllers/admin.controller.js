@@ -1,4 +1,3 @@
-const connection = require("../config.json");
 const { User } = require("../models/user.model");
 const { Subscription } = require("../models/subscription.model");
 const { Supercategory } = require("../models/supercategory.model");

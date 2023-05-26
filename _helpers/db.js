@@ -1,5 +1,6 @@
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
-const { dbName, dbConfig } = require('../config.json');
+const { dbName, dbConfig } = require('../config');
 
 const db = {};
 

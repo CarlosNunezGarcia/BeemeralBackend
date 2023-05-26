@@ -1,6 +1,5 @@
 // Importa los módulos necesarios
 const { DataTypes } = require('sequelize');
-const db = require('../config.json'); // Archivo de configuración de la base de datos
 const User = require('./user.model'); // Modelo de la tabla "user"
 const Category = require('./category.model'); // Modelo de la tabla "category"
 const Theme = require('./theme.model'); // Modelo de la tabla "theme"

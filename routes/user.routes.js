@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const connection = require("../config.json");
 const uploadImgUser = require('../_middlewares/uploadImgUser')
 const uploadImgProyect = require('../_middlewares/uploadImgProject');
 const uploadJsonProyect = require('../_middlewares/uploadJsonProject');

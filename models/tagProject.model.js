@@ -1,7 +1,6 @@
 // Importa los módulos necesarios
 const { DataTypes } = require('sequelize');
-const db = require('../config.json'); // Archivo de configuración de la base de datos
-const Tag = require('./tag.model'); // Modelo de la tabla "tag"
+const { Tag }= require('./tag.model'); // Modelo de la tabla "tag"
 const Project = require('./project.model'); // Modelo de la tabla "project"
 
 // Define el modelo "TagProject"

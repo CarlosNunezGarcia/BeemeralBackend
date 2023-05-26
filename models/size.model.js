@@ -1,6 +1,6 @@
 // Importa los módulos necesarios
 const { DataTypes } = require('sequelize');
-const db = require('../config.json'); // Archivo de configuración de la base de datos
+
 
 // Define el modelo "Size"
 function modelSize(sequelize){
