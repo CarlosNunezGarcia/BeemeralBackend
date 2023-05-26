@@ -210,6 +210,27 @@ const getAllActiveCustomers = async (req, res) => {
     }
 };
 
+const subscriptionStatus = async (req, res) => {
+    const { idUser } = req.body;
+
+    try {
+        const user = await User.findByPk(idUser);
+
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        const subscriptions = await Subscription.findAll({
+            where: { customerId: idUser },
+            include: 'default_payment_method',
+        });
+
+        res.status(200).json(subscriptions);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 
 module.exports = {
     getPrices,
@@ -219,4 +240,5 @@ module.exports = {
     checkLastTransactions,
     deleteSubscription,
     getAllActiveCustomers,
+    subscriptionStatus,
 };
