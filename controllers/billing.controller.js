@@ -292,6 +292,44 @@ const getUserPurchases = async (req, res) => {
     }
 };
 
+const getAndCheckCurrentSubscription = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email: email } });
+
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        const customer = await stripe.customers.list({
+            email: email,
+        });
+
+        const id = customer.data.length > 0 ? customer.data[0].id : "0";
+
+        if (id === "0") {
+            return res.status(200).json({ period_end: 0, subs_id: 0, active: false});
+        }
+
+        if (subscriptions.data.length) {
+            return res.status(200).json({
+                period_end: subscriptions.data[0].current_period_end,
+                subs_id: subscriptions.data[0].id,
+                active: true,
+            });
+        } else {
+            return res.status(200).json({
+                period_end: user.subscription_end,
+                subs_id: 0,
+                active: false,
+            });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 module.exports = {
     getPrices,
@@ -304,4 +342,5 @@ module.exports = {
     subscriptionStatus,
     createPaymentIntent,
     getUserPurchases,
+    getAndCheckCurrentSubscription,
 };
