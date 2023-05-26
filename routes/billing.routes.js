@@ -1,16 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const billingController = require('../controllers/billing.controller');
-const auth = require('../_middlewares/authorize');
+const billingController = require("../controllers/billing.controller");
+const auth = require("../_middlewares/authorize");
 
 //get all prices
-router.get('/prices', auth(), billingController.getPrices);
+router.get("/prices", auth, billingController.getPrices);
 
 //get stripe´s price trough priceId
-router.get('/onePrice', billingController.getOnePrice);
+router.get("/onePrice", billingController.getOnePrice);
 
 //check subscription´s status
-router.get('/getSubscriptionStatus', billingController.subscriptionStatus);
+router.get("/getSubscriptionStatus", billingController.subscriptionStatus);
 
 //Check all the data of a client, the status of your subscription, I check that it exists in Stripe,
 //checks the status of your subscription with Stripe if you have it and compares it with the information of that user and subscription that we have in our database
@@ -25,18 +25,26 @@ router.get("/getLastTransaction", billingController.checkLastTransactions);
 router.get("/getAllCustomers", billingController.getAllActiveCustomers);
 
 //delete subscription
-router.put("/deleteUserSubscription", auth, billingController.deleteSubscription);
+router.put(
+  "/deleteUserSubscription",
+  auth,
+  billingController.deleteSubscription
+);
 
 //update db (export && render) after payment
-router.put("/updateBuyItem", auth, billingController.updateAfterBuyOneItem);
+router.put("/updateBuyItem", billingController.updateAfterBuyOneItem);
 
 //check subscription´s status
-router.put("/checkPurchases", verify ,billingController.getAndCheckCurrentSubscription);
+router.put(
+  "/checkPurchases",
+  auth,
+  billingController.getAndCheckCurrentSubscription
+);
 
 //get user purchases
-router.get("/userCharges", auth, billingController.getUserPurchases);
+router.get("/userCharges", billingController.getUserPurchases);
 
 //create payment intent
-router.put("/createPaymentIntent", auth, billingController.createPaymentIntent);
+router.put("/createPaymentIntent", billingController.createPaymentIntent);
 
 module.exports = router;

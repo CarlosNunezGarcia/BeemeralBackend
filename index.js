@@ -14,24 +14,26 @@ const usersRoutes = require("./routes/user.routes");
 const subscriptionsRoutes = require("./routes/subscription.routes");
 const adminRoutes = require("./routes/admin.routes");
 const projectRoutes = require("./routes/project.routes");
+const billingRoutes = require("./routes/billing.routes");
 
 //view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 //middleware
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "*"}));
+app.use(cors({ origin: "*" }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // api routes
 app.use("/users", usersRoutes);
 app.use("/subscriptions", subscriptionsRoutes);
 app.use("/admin", adminRoutes);
 app.use("/projects", projectRoutes);
+app.use("/billing", billingRoutes);
 
 //global error handler
 app.use(errorHandler);
