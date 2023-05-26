@@ -170,6 +170,46 @@ const checkLastTransactions = async (req, res) => {
     }
 };
 
+const deleteSubscription = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email: email } });
+
+        if (!user) {
+           return res.status(400).json({ error: "User not found" });
+        }
+
+        const subscriptionCode = user.subscription_code;
+
+        if (!subscriptionCode) {
+            return res.status(200).json({ date: null });
+        }
+
+        const deletedSubscription = await stripe.subscriptions.del(subscriptionCode);
+
+        const subscriptionEnd = user.subscription_end;
+        const date = new Date(subscriptionEnd).toLocaleDateString("es-ES");
+
+        await User.update({ subscription_status: false });
+
+        return res.status(200).json({ date });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    };
+};
+
+const getAllActiveCustomers = async (req, res) => {
+    try {
+        const subscriptions = await stripe.subscriptions.list({
+            //status: 'active',
+        });
+        res.status(200).json({ subscriptions });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 
 module.exports = {
     getPrices,
@@ -177,4 +217,6 @@ module.exports = {
     getOneCustomer,
     updateAfterBuyOneItem,
     checkLastTransactions,
+    deleteSubscription,
+    getAllActiveCustomers,
 };
