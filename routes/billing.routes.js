@@ -35,6 +35,7 @@ router.put(
 router.put("/updateBuyItem", billingController.updateAfterBuyOneItem);
 
 //check subscription´s status
+//PUT || GET
 router.put(
   "/checkPurchases",
   auth,
