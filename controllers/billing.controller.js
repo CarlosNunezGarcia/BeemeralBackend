@@ -231,6 +231,49 @@ const subscriptionStatus = async (req, res) => {
     }
 };
 
+const createPaymentIntent = async (req, res) => {
+    const { email } = req.body.user;
+    const project_id = req.body.id;
+    const { option } = req.body.option;
+
+    try {
+        let user = await User.findOne({ where: { email: email } });
+
+        if (!user) {
+            //if user doesn't exist, create it
+            const customer = await stripe.customers.create({ email });
+
+            user = await User.create({ email, stripeCustomerId: customer.id });
+        }
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: 1500,
+            currency: "eur",
+            pyment_method_types: ["card"],
+        });
+
+        const session = await stripe.checkout.sessions.create({
+            payment_intent_data: paymentIntent,
+            line_items: [
+                {
+                    price: "price_1MU4LMIRxrYajVCwPFMKuDWG",
+                    quantity: 1,
+                },
+            ],
+            customer: user.stripeCustomerId,
+            mode: "payment",
+            success_url: `http://localhost:3000/user/purchase-success/${project_id}/${option}`,
+            cancel_url: "http://localhost:3000/user/billing-plans",
+        });
+
+        res.status(200).json(session);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
+
 
 module.exports = {
     getPrices,
@@ -241,4 +284,5 @@ module.exports = {
     deleteSubscription,
     getAllActiveCustomers,
     subscriptionStatus,
+    createPaymentIntent,
 };
