@@ -31,6 +31,7 @@ db.Tag = require('../models/tag.model')(sequelize, Sequelize);
 db.Size = require('../models/size.model')(sequelize, Sequelize);
 db.Theme = require('../models/theme.model')(sequelize, Sequelize);
 db.TagProject = require('../models/tagProject.model')(sequelize, Sequelize);
+db.Asset = require('../models/assets.model')(sequelize, Sequelize);
 
 //add sequelize to the db object to be used globally
 db.sequelize = sequelize;

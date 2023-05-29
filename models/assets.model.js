@@ -23,7 +23,7 @@ function modelAsset(sequelize){
             allowNull: false
         },
         asset_reference: {
-            type: DataTypes.VARCHAR(255),
+            type: DataTypes.STRING(255),
             allowNull: false
         },
     });
